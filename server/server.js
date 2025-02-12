@@ -15,9 +15,9 @@ const config = {
 };
 app.use(auth(config));
 
-// app.get("/random", (req, res) => {
-//   res.json({ random: Math.random() });
-// });
+app.get("/random", (req, res) => {
+  res.json({ random: Math.random() });
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`server is listening to ${process.env.PORT}`);
