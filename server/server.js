@@ -20,5 +20,5 @@ app.get("/random", (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`server is listening to ${process.env.PORT}`);
+  console.log(`CICD test server is listening to ${process.env.PORT}`);
 });
