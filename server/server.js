@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import { auth } from "express-openid-connect";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import connect from "./db/connect.js";
+import fs from "fs";
 dotenv.config();
 
 const app = express();
@@ -26,12 +28,13 @@ app.use(
   })
 );
 
-// app.get("/random", (req, res) => {
-//   res.json({ random: Math.random() });
-// });
+app.get("/random", (req, res) => {
+  res.json({ random: Math.random() });
+});
 
 const server = async () => {
   try {
+    await connect();
     app.listen(process.env.PORT, () => {
       console.log(`server is listening to ${process.env.PORT}`);
     });
