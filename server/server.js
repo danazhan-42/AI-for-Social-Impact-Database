@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import connect from "./db/connect.js";
 import fs from "fs";
+import User from "./models/UserMode.js";
+import asyncHandler from "express-async-handler";
 dotenv.config();
 
 const app = express();
@@ -28,8 +30,33 @@ app.use(
   })
 );
 
-app.get("/random", (req, res) => {
-  res.json({ random: Math.random() });
+// function to check if user exists in the db
+const ensureUserInDB = asyncHandler(async (user) => {
+  const existingUser = await User.findOne({ auth0Id: user.sub });
+  if (!existingUser) {
+    // create a new user document
+    const newUser = new User({
+      auth0Id: user.sub,
+      email: user.email,
+      name: user.name,
+      role: "visitor",
+      profilePicture: user.picture,
+    });
+    await newUser.save();
+  }
+});
+
+//routes
+const routeFiles = fs.readdirSync("./routes");
+
+routeFiles.forEach((file) => {
+  import(`./routes/${file}`)
+    .then((route) => {
+      app.use("/api/v1/", route.default);
+    })
+    .catch((error) => {
+      console.log("Error importing route", error);
+    });
 });
 
 const server = async () => {
