@@ -1,1 +1,1 @@
-Refactoring a previous React.js project to explore new frameworks/languages/tools/databases like Next.js, TypeScript, and CI/CD tools.
+Refactoring a previous React.js project to practice languages/tools/NoSQL databases like TypeScript, CI/CD tools, MongoDB, and MVC model.
